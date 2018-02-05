@@ -1,2 +1,22 @@
-<h1>Welcome#index</h1>
-<p>Find me in app/views/welcome/index.html.erb</p>
+<div class="bp-center">
+  <h1>Blocipedia: Social, Markdown Wikis (Blocis)</h1>
+</div>
+<div class="jumbotron bp-center">
+  <h3 id="jumbo-title">Create and share Markdown Wikis</h3>
+  <p>
+    <%= link_to "Sign Up", new_user_registration_path, :class => 'btn btn-primary'  %>
+  </p>
+</div>
+
+<div class="row">
+  <div class="col-md-4 pull-left bp-wide-margin-left bp-35-width">
+    <h4 align="center">Create as many public wikis as you want!</h4>
+    <%= image_tag("free.png", class: "bp-pad-left") %>
+    <h4 align="center">Free Plan</h4>
+  </div>
+  <div class="col-md-4 pull-right bp-wide-margin-right bp-35-width">
+    <h4 align="center">Create private wikis!</h4>
+    <%= image_tag("premium.png", class: "bp-pad-left") %>
+    <h4 align="center">Premium Plan</h4>
+  </div>
+</div>

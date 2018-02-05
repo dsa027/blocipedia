@@ -15,3 +15,11 @@
  */
  @import "bootstrap-sprockets";
  @import "bootstrap";
+
+ * {
+   font-family: Roboto, sans-serif;
+ }
+
+ .bp-nav-text {
+   margin-top: 10px;
+ }
