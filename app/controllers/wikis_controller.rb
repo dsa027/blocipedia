@@ -1,4 +1,6 @@
 class WikisController < ApplicationController
+  include WikisHelper
+
   before_action :authenticate_user!
 
   def index
@@ -14,13 +16,21 @@ class WikisController < ApplicationController
   end
 
   def create
-    @wiki = Wiki.new(wiki_params)
-    @wiki.user = current_user
+    begin
+      @wiki = Wiki.new(wiki_params)
 
-    if @wiki.save
-      redirect_to @wiki, notice: "Wiki was saved successfully."
-    else
-      flash.now[:alert] = "Error creating wiki. Please try again."
+      raise "not_authorized" if !authorize_wiki(@wiki)
+
+      @wiki.user = current_user
+
+      if @wiki.save
+        redirect_to @wiki, notice: "Wiki was saved successfully."
+      else
+        flash.now[:alert] = "Error creating wiki. Please try again."
+        render :new
+      end
+    rescue
+      flash.now[:alert] = "You must be a premium member to create private wikis."
       render :new
     end
   end
@@ -30,14 +40,21 @@ class WikisController < ApplicationController
   end
 
   def update
-    @wiki = Wiki.find(params[:id])
-    @wiki.assign_attributes(wiki_params)
+    begin
+      @wiki = Wiki.find(params[:id])
+      @wiki.assign_attributes(wiki_params)
 
-    if @wiki.save
-      flash[:notice] = "Wiki was updated."
-      redirect_to @wiki
-    else
-      flash.now[:alert] = "Error saving wiki. Please try again."
+      raise "not_authorized" if !authorize_wiki(@wiki)
+
+      if @wiki.save
+        flash[:notice] = "Wiki was updated."
+        redirect_to @wiki
+      else
+        flash.now[:alert] = "Error saving wiki. Please try again."
+        render :edit
+      end
+    rescue
+      flash.now[:alert] = "You must be a premium member to change to a private wiki."
       render :edit
     end
   end

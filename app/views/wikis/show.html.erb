@@ -7,10 +7,8 @@
 <br/>
 <br/>
 
-<% if user_is_authorized_for_wikis_edit? %>
-  <%= link_to "Edit Wiki", edit_wiki_path, class: 'btn btn-success' %>
-<% end %>
-<% if user_is_authorized_for_wikis_crud? %>
+<%= link_to "Edit Wiki", edit_wiki_path, class: 'btn btn-success' %>
+<% if is_admin? %>
   <%= link_to "Delete Wiki", @wiki, method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure you want to delete this wiki?' } %>
 <% end %>
 <br/>

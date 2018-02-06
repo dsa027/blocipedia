@@ -23,6 +23,7 @@ end
 gem 'tzinfo-data'
 gem 'devise'
 gem 'bcrypt', git: 'https://github.com/codahale/bcrypt-ruby.git', require: 'bcrypt'
+gem 'pundit'
 
 # Use Puma as the app server
 gem 'puma', '~> 3.0'

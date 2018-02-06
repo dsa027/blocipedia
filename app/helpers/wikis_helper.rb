@@ -1,11 +1,11 @@
 module WikisHelper
-  def user_is_authorized_for_wikis_crud?
-    current_user
+  def private_ok?
+    current_user && (current_user.premium? || current_user.admin?)
   end
-  def user_is_authorized_for_wikis_edit?
-    current_user
+  def authorize_wiki(wiki)
+    !wiki.private || (wiki.private && private_ok?)
   end
-  def user_is_signed_in_and_admin?
-    current_user
+  def is_admin?
+    current_user.admin?
   end
 end
