@@ -1,0 +1,17 @@
+<div class="media">
+  <div class="media-body">
+    <h4 class="media-heading">
+      <% if wiki.title.empty? %>
+        <%= link_to "<No Title>", wiki %>
+      <% else %>
+        <%= link_to wiki.title, wiki %>
+      <% end %>
+      <br/>
+    </h4>
+    <small>
+      <em>This wiki is <strong><%= wiki.private ? "private" : "public" %></strong></em>
+      <br/>
+      <%= wiki.body %>
+    </small>
+  </div>
+</div>
