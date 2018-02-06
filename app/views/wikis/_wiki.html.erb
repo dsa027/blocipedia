@@ -8,10 +8,14 @@
       <% end %>
       <br/>
     </h4>
-    <small>
-      <em>This wiki is <strong><%= wiki.private ? "private" : "public" %></strong></em>
-      <br/>
-      <%= wiki.body %>
-    </small>
+    <div class="gray-bg">
+      <small>
+        submitted <%= time_ago_in_words(wiki.created_at) %> ago by <%= wiki.user.name %>
+        <br/>
+        <em>This wiki is <strong><%= wiki.private ? "private" : "public" %></strong></em>
+        <br/>
+      </small>
+    </div>
+    <%= wiki.body %>
   </div>
 </div>

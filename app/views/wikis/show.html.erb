@@ -1,7 +1,9 @@
 <h1><%= @wiki.title %></h1>
-<small><em>
-  This wiki is <strong><%= @wiki.private ? "private" : "public" %></strong>
-</em></small>
+<small>
+  submitted <%= time_ago_in_words(@wiki.created_at) %> ago by <%= @wiki.user.name %>
+  <br/>
+  <em>This wiki is <strong><%= @wiki.private ? "private" : "public" %></strong></em>
+</small>
 <br/>
 <br/>
 
