@@ -18,12 +18,12 @@ group :development do
   # Use sqlite3 as the development database for Active Record
   gem 'sqlite3'
   gem 'web-console', '~> 2.0'
+  gem 'faker'
 end
 
 gem 'tzinfo-data'
 gem 'devise'
 gem 'bcrypt', git: 'https://github.com/codahale/bcrypt-ruby.git', require: 'bcrypt'
-gem 'pundit'
 
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
