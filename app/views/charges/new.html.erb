@@ -1,0 +1,14 @@
+<%= form_tag charges_path do %>
+  <div>
+    <h3>Benefits of upgrading to Premium:</h3>
+    <ul>
+      <li>You can create private wikis.</li>
+      <li>You can create private wikis.</li>
+      <li>and</li>
+      <li>You can create private wikis.</li>
+    </ul>
+    <br/>
+    <h4>You will be charged $<%= sprintf("%0.2f", Amount.default/100) %></h4>
+  </div>
+  <script class='stripe-button' src="https://checkout.stripe.com/checkout.js" data-key="<%= @stripe_btn_data[:key] %>" data-amount="<%= @stripe_btn_data[:amount] %>" data-description="<%= @stripe_btn_data[:description] %>" ></script>
+<% end %>

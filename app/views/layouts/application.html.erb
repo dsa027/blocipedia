@@ -24,6 +24,13 @@
             <li class="pull-right"><%= link_to "Sign In", new_user_session_path, class: 'navbar-link'  %></li>
           <% end %>
         </li>
+        <li class="pull-right">
+          <% if user_signed_in? && current_user.standard? %>
+            <li class="pull-right"><%= button_to "Upgrade Account", new_charge_path, method: :get, class: 'navbar-link btn btn-success bp-nudge-down' %></li>
+          <% elsif user_signed_in? && current_user.premium? %>
+            <li class="pull-right"><%= button_to "Downgrade Account", edit_charge_path(current_user.id), method: :get, class: 'navbar-link btn btn-default bp-nudge-down' %></li>
+          <% end %>
+        </li>
       </ul>
 
       <% if flash[:notice] %>

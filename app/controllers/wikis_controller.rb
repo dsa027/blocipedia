@@ -30,7 +30,7 @@ class WikisController < ApplicationController
         render :new
       end
     rescue
-      flash.now[:alert] = "You must be a premium member to create private wikis."
+      flash.now[:alert] = "You must be a premium member to create private wikis. Try upgrading your account!"
       render :new
     end
   end
@@ -54,7 +54,7 @@ class WikisController < ApplicationController
         render :edit
       end
     rescue
-      flash.now[:alert] = "You must be a premium member to change to a private wiki."
+      flash.now[:alert] = "You must be a premium member to change to a private wiki. Try upgrading your account!"
       render :edit
     end
   end
