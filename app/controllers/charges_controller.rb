@@ -1,4 +1,6 @@
 class ChargesController < ApplicationController
+  include ChargesHelper
+
   def create
     # Creates a Stripe Customer object, for associating
     # with the charge
@@ -41,6 +43,8 @@ class ChargesController < ApplicationController
   def update
     begin
       User.find(current_user.id).standard!
+      private_to_public
+      
       flash[:notice] = "Congratulations! You have been downgraded by request! Be sure to upgrade again sometime for $#{sprintf("%0.2f", Amount.default/100)}!"
       redirect_to root_path
     rescue

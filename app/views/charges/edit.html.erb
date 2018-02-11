@@ -1,4 +1,11 @@
   <div>
+    <% count = private_wiki_count %>
+    <% if count > 0 %>
+      <div>
+        <h2 style="color:red">You have <%= count %> private <%= count == 1 ? "wiki" : "wikis"  %> that will all become public if you downgrade!</h2>
+      </div>
+      <br/>
+    <% end %>
     <h3>Benefits of downgrading from Premium:</h3>
     <ul>
       <li>You can NOT create private wikis.</li>

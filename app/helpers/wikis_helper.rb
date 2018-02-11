@@ -8,4 +8,10 @@ module WikisHelper
   def is_admin?
     current_user.admin?
   end
+  def is_premium?
+    current_user.premium?
+  end
+  def is_owner?(wiki)
+    current_user.id == wiki.user_id
+  end
 end

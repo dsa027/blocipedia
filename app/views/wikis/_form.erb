@@ -17,10 +17,17 @@
     <%= f.label :body %>
     <%= f.text_area :body, rows: 8, class: 'form-control', placeholder: "Enter wiki text" %>
   <% end %>
-  <div class="form-group">
-    <%= f.label :private, class: 'checkbox bp-bump-right-20px' do %>
-      <%= f.check_box :private %> Private wiki
-    <% end %>
-  </div>
+  <% if is_admin? || is_premium? %>
+    <div class="form-group">
+      <%= f.label :private, class: 'checkbox bp-bump-right-20px' do %>
+        <%= f.check_box :private %> Private wiki
+      <% end %>
+    </div>
+  <% else %>
+    <div>
+      <small><strong>Upgrade your account</strong> to make any of your wikis private!</small>
+    </div>
+    <br/>
+  <% end %>
   <%= f.submit "Save", class: 'btn btn-success' %>
 <% end %>
