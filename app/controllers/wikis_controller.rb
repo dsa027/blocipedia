@@ -4,7 +4,9 @@ class WikisController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @wikis = Wiki.all
+    logger.debug "@@@@@@@@@@@@@@@@@@@@@@ count: #{Wiki.all.count}"
+    @wikis = Wiki.all.visible_to(current_user)
+    logger.debug "@@@@@@@@@@@@@@@@@@@@@@ count: #{@wikis.count}"
   end
 
   def show
