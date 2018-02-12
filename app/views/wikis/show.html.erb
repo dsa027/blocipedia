@@ -15,8 +15,8 @@
 <br/>
 
 <div class="row">
-  <div class="col-md-8">
-    <p class="lead"><%= @wiki.body %></p>
+  <div class="col-md-8 lead">
+    <%= markdown(@wiki.body) %>
   </div>
   <div class="col-md-4">
     <% if current_user %>

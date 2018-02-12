@@ -19,6 +19,13 @@ class WikisController < ApplicationController
     begin
       @wiki = Wiki.new(wiki_params)
 
+      params.permit(:refresh)
+      if params[:refresh]
+        @latest_markdown = markdown(params[:wiki][:body])
+        render :new
+        return
+      end
+
       raise "not_authorized" if !authorize_wiki(@wiki)
 
       @wiki.user = current_user
@@ -37,12 +44,20 @@ class WikisController < ApplicationController
 
   def edit
     @wiki = Wiki.find(params[:id])
+    @latest_markdown = markdown(@wiki.body)
   end
 
   def update
     begin
       @wiki = Wiki.find(params[:id])
       @wiki.assign_attributes(wiki_params)
+
+      params.permit(:refresh)
+      if params[:refresh]
+        @latest_markdown = markdown(params[:wiki][:body])
+        render :edit
+        return
+      end
 
       raise "not_authorized" if !authorize_wiki(@wiki)
 

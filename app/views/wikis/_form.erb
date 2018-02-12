@@ -15,7 +15,7 @@
   <% end %>
   <%= form_group_tag(wiki.errors[:body]) do %>
     <%= f.label :body %>
-    <%= f.text_area :body, rows: 8, class: 'form-control', placeholder: "Enter wiki text" %>
+    <%= f.text_area :body, rows: 8, class: 'form-control markdown-preview', id: 'wiki-input', placeholder: "Enter wiki text" %>
   <% end %>
   <% if is_admin? || is_premium? %>
     <div class="form-group">
@@ -27,7 +27,17 @@
     <div>
       <small><strong>Upgrade your account</strong> to make any of your wikis private!</small>
     </div>
-    <br/>
   <% end %>
   <%= f.submit "Save", class: 'btn btn-success' %>
+  <br/>
+  <br/>
+  <div id="bp-markdown">
+    <p id="bp-header">Preview
+      <%= f.button "Refresh", name: "refresh", value: "refresh", class: 'btn btn-default' %>
+    </p>
+    <div id="pb-preview">
+      <%= @latest_markdown %>
+    </div>
+  </div>
+
 <% end %>
