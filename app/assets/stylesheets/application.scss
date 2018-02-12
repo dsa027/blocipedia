@@ -31,8 +31,30 @@
   transform: translate(1px, 1px);
   border: none;
 }
-#pb-preview {
+#bp-preview {
   height:250px;
   font:16px/26px Georgia, Garamond, Serif;
   overflow:auto;
+}
+.bp-gray-bg {
+  background-color: #f3f3f3;
+}
+.bp-center {
+  text-align: center;
+  align: center;
+}
+.bp-wide-margin-left {
+  margin-left: 7%;
+}
+.bp-wide-margin-right {
+  margin-right: 7%;
+}
+.bp-35-width {
+  width: 35%;
+}
+.bp-pad-left {
+  padding-left: 80px;
+}
+#bp-jumbo-title {
+  color: grey;
 }
