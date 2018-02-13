@@ -8,7 +8,7 @@ class WikisController < ApplicationController
   end
 
   def show
-    @wiki = Wiki.find(params[:id])
+    @wiki = Wiki.friendly.find(params[:id])
   end
 
   def new
@@ -32,7 +32,7 @@ class WikisController < ApplicationController
 
       @wiki.user = current_user
 
-      if @wiki.save
+      if @wiki.save title: @wiki.title
         redirect_to @wiki, notice: "Wiki was saved successfully."
       else
         flash.now[:alert] = "Error creating wiki. Please try again."
@@ -45,13 +45,13 @@ class WikisController < ApplicationController
   end
 
   def edit
-    @wiki = Wiki.find(params[:id])
+    @wiki = Wiki.friendly.find(params[:id])
     @latest_markdown = markdown(@wiki.body)
   end
 
   def update
     begin
-      @wiki = Wiki.find(params[:id])
+      @wiki = Wiki.friendly.find(params[:id])
       @wiki.assign_attributes(wiki_params)
 
       params.permit(:refresh)
@@ -79,7 +79,7 @@ class WikisController < ApplicationController
   end
 
   def destroy
-    @wiki = Wiki.find(params[:id])
+    @wiki = Wiki.friendly.find(params[:id])
 
     if @wiki.destroy
       flash[:notice] = "\"#{@wiki.title}\" was deleted successfully."

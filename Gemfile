@@ -27,6 +27,7 @@ gem 'bcrypt', git: 'https://github.com/codahale/bcrypt-ruby.git', require: 'bcry
 gem 'figaro'
 gem 'stripe'
 gem 'redcarpet'
+gem 'friendly_id', '~> 5.1.0'
 
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
