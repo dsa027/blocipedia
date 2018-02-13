@@ -1,9 +1,9 @@
 module WikisHelper
-  def private_ok?
-    current_user && (current_user.premium? || current_user.admin?)
+  def private_ok?(wiki)
+    current_user && (current_user.premium? || current_user.admin? || wiki.collaborators.find { |wc| wc.user_id == current_user.id })
   end
   def authorize_wiki(wiki)
-    !wiki.private || (wiki.private && private_ok?)
+    !wiki.private || (wiki.private && private_ok?(wiki))
   end
   def is_admin?
     current_user.admin?

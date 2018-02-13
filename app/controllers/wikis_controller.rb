@@ -4,9 +4,7 @@ class WikisController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    logger.debug "@@@@@@@@@@@@@@@@@@@@@@ count: #{Wiki.all.count}"
-    @wikis = Wiki.all.visible_to(current_user)
-    logger.debug "@@@@@@@@@@@@@@@@@@@@@@ count: #{@wikis.count}"
+    @wikis = Wiki.visible_to(current_user)
   end
 
   def show
@@ -29,6 +27,8 @@ class WikisController < ApplicationController
       end
 
       raise "not_authorized" if !authorize_wiki(@wiki)
+
+      update_collabs(params)
 
       @wiki.user = current_user
 
@@ -63,6 +63,8 @@ class WikisController < ApplicationController
 
       raise "not_authorized" if !authorize_wiki(@wiki)
 
+      update_collabs(params)
+
       if @wiki.save
         flash[:notice] = "Wiki was updated."
         redirect_to @wiki
@@ -89,7 +91,34 @@ class WikisController < ApplicationController
   end
 
   private
+
   def wiki_params
     params.require(:wiki).permit(:title, :body, :private)
+  end
+
+  def update_collabs(c)
+    if !@wiki.private
+      # make sure public wiki doesn't have Collaborators
+      Collaborator.where('wiki_id == ?', @wiki).destroy_all
+    else
+      # delete collabs that were collabs and no longer are
+      # add collabs that weren't collabs and now are
+      add, del = [], []
+      # get all checkboxes
+      c.select { |k,v| k.start_with?("checkbox:") }.each { |k,v| v == '1' ? add << get_user_id(k) : del << get_user_id(k) }
+      # delete those that aren't checked
+      del.each { |k| Collaborator.where('user_id == ? AND wiki_id == ?', k, @wiki).destroy_all }
+      # add those that are checked
+      add.each do |k|
+        adds = Collaborator.where('user_id == ? AND wiki_id == ?', k, @wiki)
+        if adds.empty?
+          Collaborator.new(user_id: k, wiki: @wiki).save
+        end
+      end
+    end
+  end
+
+  def get_user_id(str)
+    str.sub("checkbox:", "")
   end
 end

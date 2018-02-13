@@ -16,6 +16,6 @@
         <br/>
       </small>
     </div>
-    <%= wiki.body %>
+    <%= markdown(wiki.body.slice(0, 200) + (wiki.body[200].nil? ? "" : "...")) %>
   </div>
 </div>

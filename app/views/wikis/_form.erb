@@ -1,43 +1,61 @@
 <%= form_for @wiki do |f| %>
-  <% if wiki.errors.any? %>
-    <div class="alert alert-danger">
-      <h4><%= pluralize(wiki.errors.count, "error") %>.</h4>
+  <div class="row">
+    <div class="col-md-4">
+      <p>Guidelines for Wikis:</p>
       <ul>
-        <% wiki.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
+        <li>Make sure the topic is appropriate.</li>
+        <li>Never insult the administrator.</li>
+        <li>Be accurate.</li>
       </ul>
-    </div>
-  <% end %>
-  <%= form_group_tag(wiki.errors[:title]) do %>
-    <%= f.label :title %>
-    <%= f.text_field :title, class: 'form-control', placeholder: "Enter wiki title" %>
-  <% end %>
-  <%= form_group_tag(wiki.errors[:body]) do %>
-    <%= f.label :body %>
-    <%= f.text_area :body, rows: 8, class: 'form-control markdown-preview', id: 'wiki-input', placeholder: "Enter wiki text" %>
-  <% end %>
-  <% if is_admin? || is_premium? %>
-    <div class="form-group">
-      <%= f.label :private, class: 'checkbox bp-bump-right-20px' do %>
-        <%= f.check_box :private %> Private wiki
+      <br/>
+      <% if @wiki.private == true && (current_user.admin? || (current_user.premium? && @wiki.user_id == current_user.id)) %>
+        <h1>Collaborators</h1>
+        <% @users = User.all %>
+        <%= render partial: 'users/user', collection: @users, locals: { f: f, wiki: @wiki } %>
       <% end %>
     </div>
-  <% else %>
-    <div>
-      <small><strong>Upgrade your account</strong> to make any of your wikis private!</small>
-    </div>
-  <% end %>
-  <%= f.submit "Save", class: 'btn btn-success' %>
-  <br/>
-  <br/>
-  <div id="bp-markdown">
-    <p id="bp-header">Preview
-      <%= f.button "Refresh", name: "refresh", value: "refresh", class: 'btn btn-default' %>
-    </p>
-    <div id="bp-preview">
-      <%= @latest_markdown %>
+    <br/>
+    <div class="col-md-8">
+      <% if wiki.errors.any? %>
+        <div class="alert alert-danger">
+          <h4><%= pluralize(wiki.errors.count, "error") %>.</h4>
+          <ul>
+            <% wiki.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <%= form_group_tag(wiki.errors[:title]) do %>
+        <%= f.label :title %>
+        <%= f.text_field :title, class: 'form-control', placeholder: "Enter wiki title" %>
+      <% end %>
+      <%= form_group_tag(wiki.errors[:body]) do %>
+        <%= f.label :body %>
+        <%= f.text_area :body, rows: 8, class: 'form-control markdown-preview', id: 'wiki-input', placeholder: "Enter wiki text" %>
+      <% end %>
+      <% if is_admin? || is_premium? %>
+        <div class="form-group">
+          <%= f.label :private, class: 'checkbox bp-bump-right-20px' do %>
+            <%= f.check_box :private, onclick: "$('#refresh-id').click();" %> Private wiki
+          <% end %>
+        </div>
+      <% else %>
+        <div>
+          <small><strong>Upgrade your account</strong> to make any of your wikis private!</small>
+        </div>
+      <% end %>
+      <%= f.submit "Save", class: 'btn btn-success' %>
+      <br/>
+      <br/>
+      <div id="bp-markdown">
+        <p id="bp-header">Preview
+          <%= f.button "Refresh", name: "refresh", value: "refresh", class: 'btn btn-default', id: "refresh-id" %>
+        </p>
+        <div id="bp-preview">
+          <%= @latest_markdown %>
+        </div>
+      </div>
     </div>
   </div>
-
 <% end %>

@@ -1,15 +1,4 @@
 <h1>Edit Wiki</h1>
-
-<div class="row">
-  <div class="col-md-4">
-    <p>Guidelines for Wikis:</p>
-    <ul>
-      <li>Make sure the topic is appropriate.</li>
-      <li>Never insult the administrator.</li>
-      <li>Be accurate.</li>
-    </ul>
-  </div>
-  <div class="col-md-8">
-    <%= render partial: 'form', locals: { wiki: @wiki } %>
-  </div>
+<div>
+  <%= render partial: 'form', locals: { wiki: @wiki } %>
 </div>
