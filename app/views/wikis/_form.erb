@@ -1,4 +1,3 @@
-<%= form_for @wiki do |f| %>
   <div class="row">
     <div class="col-md-4">
       <p>Guidelines for Wikis:</p>
@@ -8,10 +7,13 @@
         <li>Be accurate.</li>
       </ul>
       <br/>
-      <% if @wiki.private == true && (current_user.admin? || (current_user.premium? && @wiki.user_id == current_user.id)) %>
+      <% if @wiki.private == true && admin_or_mine?(@wiki) %>
         <h1>Collaborators</h1>
-        <% @users = User.all %>
-        <%= render partial: 'users/user', collection: @users, locals: { f: f, wiki: @wiki } %>
+        <select id="collab-dropdown" multiple="multiple">
+          <%= User.all.each do |u| %>
+            <option <%= get_selected(u.id, @wiki.id) %> value="<%= u.id %>/<%= @wiki.id %>"><%= u.email %></option> %>
+          <% end %>
+        </select>
       <% end %>
     </div>
     <br/>
@@ -26,6 +28,7 @@
           </ul>
         </div>
       <% end %>
+    <%= form_for @wiki do |f| %>
       <%= form_group_tag(wiki.errors[:title]) do %>
         <%= f.label :title %>
         <%= f.text_field :title, class: 'form-control', placeholder: "Enter wiki title" %>

@@ -1,9 +1,12 @@
 module WikisHelper
-  def private_ok?(wiki)
-    current_user && (current_user.premium? || current_user.admin? || wiki.collaborators.find { |wc| wc.user_id == current_user.id })
+  def admin_or_mine?(wiki)
+    current_user.admin? || (current_user.premium? && wiki.user_id == current_user.id)
+  end
+  def is_collaborator?(wiki)
+    wiki.collaborators.find { |wc| wc.user_id == current_user.id }
   end
   def authorize_wiki(wiki)
-    !wiki.private || (wiki.private && private_ok?(wiki))
+    !wiki.private || (wiki.private && admin_or_mine?(wiki)) || (wiki.private && is_collaborator?(wiki))
   end
   def is_admin?
     current_user.admin?
@@ -13,6 +16,14 @@ module WikisHelper
   end
   def is_owner?(wiki)
     current_user.id == wiki.user_id
+  end
+  def get_selected(u_id, w_id)
+    Collaborator.where(user_id: u_id, wiki_id: w_id).empty? ? "" : "selected='selected'"
+  end
+  def priv_to_pub(wiki)
+    if !wiki.private
+      wiki.collaborators.destroy_all
+    end
   end
 
   def markdown(text)

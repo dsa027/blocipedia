@@ -1,8 +1,0 @@
-<% if user.id != current_user.id %>
-  <div class="form-group">
-    <% collab = Collaborator.where('user_id == ? AND wiki_id == ?', user.id, wiki.id) %>
-    <%= f.label :private, class: 'checkbox bp-bump-right-20px' do %>
-      <%= f.check_box :private, checked: !collab.empty?, name: "checkbox:#{user.id}" %> <%= user.name %><small class="bp-normal-weight"> - <%= user.email %></small>
-    <% end %>
-  </div>
-<% end %>

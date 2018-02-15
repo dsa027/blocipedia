@@ -1,0 +1,10 @@
+  <% user = User.find(collaborator.user_id) %>
+  <% if user.id != current_user.id %>
+    <div class="form-group">
+      <%= link_to collaborator_path([collaborator, collaborator.wiki_id]), method: :delete, class: "btn", data: { confirm: 'Are you sure you want to remove this collaborator?' } do %>
+        <%= image_tag("remove.png", height: "16") %>
+      <% end %>
+      <%= user.name %><small class="bp-normal-weight"> - <%= user.email %></small>
+      <!-- <%= collaborator.user_id %>, <%= collaborator.wiki_id %>, <%= collaborator.id %> -->
+    </div>
+  <% end %>

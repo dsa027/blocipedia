@@ -4,7 +4,6 @@ class AdminMailer < Devise::Mailer
   default from: "dsa027@gmail.com"
 
   def new_user(user)
-    logger.debug "@@@@@@@@@@@@@@@@@@@@ new user #{user.id}, #{user.email}"
     headers["Message-ID"] = "<user/#{user.id}@bloccit.com>"
     headers["In-Reply-To"] = "<user/#{user.id}@bloccit.com>"
     headers["References"] = "<user/#{user.id}@bloccit.com>"
@@ -15,7 +14,6 @@ class AdminMailer < Devise::Mailer
   end
 
   def confirmation_instructions(record, token, opts={})
-    logger.debug "@@@@@@@@@@@@@@@@@@@@ confirmation_instructions"
     if @user
       headers["Subject"] = "<user/#{@user.email}@bloccit.com>"
       headers["Message-ID"] = "<user/#{@user.id}@bloccit.com>"

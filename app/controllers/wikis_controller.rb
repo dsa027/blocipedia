@@ -1,6 +1,5 @@
 class WikisController < ApplicationController
   include WikisHelper
-
   before_action :authenticate_user!
 
   def index
@@ -8,7 +7,15 @@ class WikisController < ApplicationController
   end
 
   def show
+    begin
     @wiki = Wiki.friendly.find(params[:id])
+
+    raise "not_authorized" if !authorize_wiki(@wiki)
+
+    rescue
+      flash[:alert] = "You may not view someone else's private wikis."
+      redirect_to wikis_path
+    end
   end
 
   def new
@@ -27,8 +34,6 @@ class WikisController < ApplicationController
       end
 
       raise "not_authorized" if !authorize_wiki(@wiki)
-
-      update_collabs(params)
 
       @wiki.user = current_user
 
@@ -63,7 +68,9 @@ class WikisController < ApplicationController
 
       raise "not_authorized" if !authorize_wiki(@wiki)
 
-      update_collabs(params)
+      if !@wiki.private
+        priv_to_pub(@wiki)
+      end
 
       if @wiki.save
         flash[:notice] = "Wiki was updated."
@@ -94,31 +101,5 @@ class WikisController < ApplicationController
 
   def wiki_params
     params.require(:wiki).permit(:title, :body, :private)
-  end
-
-  def update_collabs(c)
-    if !@wiki.private
-      # make sure public wiki doesn't have Collaborators
-      Collaborator.where('wiki_id == ?', @wiki).destroy_all
-    else
-      # delete collabs that were collabs and no longer are
-      # add collabs that weren't collabs and now are
-      add, del = [], []
-      # get all checkboxes
-      c.select { |k,v| k.start_with?("checkbox:") }.each { |k,v| v == '1' ? add << get_user_id(k) : del << get_user_id(k) }
-      # delete those that aren't checked
-      del.each { |k| Collaborator.where('user_id == ? AND wiki_id == ?', k, @wiki).destroy_all }
-      # add those that are checked
-      add.each do |k|
-        adds = Collaborator.where('user_id == ? AND wiki_id == ?', k, @wiki)
-        if adds.empty?
-          Collaborator.new(user_id: k, wiki: @wiki).save
-        end
-      end
-    end
-  end
-
-  def get_user_id(str)
-    str.sub("checkbox:", "")
   end
 end

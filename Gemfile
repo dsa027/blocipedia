@@ -28,6 +28,7 @@ gem 'figaro'
 gem 'stripe'
 gem 'redcarpet'
 gem 'friendly_id', '~> 5.1.0'
+gem 'select2-rails'
 
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
