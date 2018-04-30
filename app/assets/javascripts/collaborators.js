@@ -26,6 +26,7 @@ function matchCustom(params, data) {
 
 $(document).ready(function() {
   $("#collab-dropdown").select2({
+      theme: "bootstrap",
       matcher: matchCustom,
       placeholder: "Enter email"
   })
