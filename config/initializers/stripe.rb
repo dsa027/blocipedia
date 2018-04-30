@@ -7,3 +7,4 @@ Rails.configuration.stripe = {
 Stripe.api_key = Rails.configuration.stripe[:secret_key]
 # Stripe.api_key = Figaro.env.secret_key
 Stripe.api_key = "sk_test_JY7itKHzmMZQAjUI9hSUjGFW"
+Stripe.setPublishableKey("sk_test_JY7itKHzmMZQAjUI9hSUjGFW")
