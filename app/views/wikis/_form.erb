@@ -9,6 +9,11 @@
       <br/>
       <% if @wiki.private == true && admin_or_mine?(@wiki) %>
         <h1>Collaborators</h1>
+        <select id="collab-dropdown" multiple="multiple">
+          <%= User.all.each do |u| %>
+            <option <%= get_selected(u.id, @wiki.id) %> value="<%= u.id %>/<%= @wiki.id %>"><%= u.email %></option> %>
+          <% end %>
+        </select>
         <script>
           $("#collab-dropdown").select2({
               theme: "bootstrap",
@@ -39,11 +44,6 @@
             }
           });
         </script>
-        <select id="collab-dropdown" multiple="multiple">
-          <%= User.all.each do |u| %>
-            <option <%= get_selected(u.id, @wiki.id) %> value="<%= u.id %>/<%= @wiki.id %>"><%= u.email %></option> %>
-          <% end %>
-        </select>
       <% end %>
     </div>
     <br/>
