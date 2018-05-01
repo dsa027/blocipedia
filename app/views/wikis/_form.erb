@@ -10,11 +10,34 @@
       <% if @wiki.private == true && admin_or_mine?(@wiki) %>
         <h1>Collaborators</h1>
         <script>
-        $("#collab-dropdown").select2({
-            theme: "bootstrap",
-            matcher: matchCustom,
-            placeholder: "Enter email"
-        })
+          $("#collab-dropdown").select2({
+              theme: "bootstrap",
+              matcher: matchCustom,
+              placeholder: "Enter email"
+          })
+          $("#collab-dropdown").on('change', function() {
+            $.ajax({
+              url: '/collaborators/',
+              type: 'POST',
+              dataType: 'json',
+              data: {
+                id: $("#collab-dropdown").val(),
+              },
+            });
+          })
+          $('#collab-dropdown').on("select2:unselecting", function() {
+            var v = $('#collab-dropdown').val();
+            if (v.length === 1) {
+              $.ajax({
+                url: '/collaborators/',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                  id: [v + "/delete"],
+                },
+              });
+            }
+          });
         </script>
         <select id="collab-dropdown" multiple="multiple">
           <%= User.all.each do |u| %>
