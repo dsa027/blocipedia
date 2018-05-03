@@ -3,7 +3,7 @@ title: Blocipedia
 short-description: A Web-based, SPA Wiki-like creator written in AngularJS
 ---
 <a href="https://blooming-wave-99055.herokuapp.com/">
-  <img src="/assets/img/posts/blocipedia_logo_thumb.png"/>
+  Heroku
 </a>
 
 ![]( /assets/img/posts/GitHub-Mark-32px.png "GitHub")
