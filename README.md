@@ -6,13 +6,6 @@ short-description: A Web-based, SPA Wiki-like creator written in AngularJS
   Heroku
 </a>
 
-![]( /assets/img/posts/GitHub-Mark-32px.png "GitHub")
-[GitHub](https://github.com/dsa027/blocipedia)
-{:.center}
-
-{% highlight javascript%}
-{% endhighlight %}
-
 # Summary
 
   A Wiki-like Creator written with Rails
